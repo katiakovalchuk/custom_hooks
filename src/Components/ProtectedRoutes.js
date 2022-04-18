@@ -1,9 +1,10 @@
 import {Navigate, Outlet} from 'react-router-dom';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const ProtectedRoutes = () => {
 
     const useAuth = () => {
-        const user = JSON.parse(localStorage.getItem('user'));
+        const [user] = useLocalStorage({}, 'user');
         return user && user.loggedIn;
     }
 
