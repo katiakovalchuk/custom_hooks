@@ -1,0 +1,26 @@
+
+.pagination-list{
+    list-style-type: none;
+}
+
+.pagination-item{
+    display: inline-block;
+    width: 45px;
+    margin: 5px;
+    text-decoration: none;
+}
+
+.pagination-item-text.active{
+    background-color: #98938e;
+}
+
+.pagination-item-text{
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #7c7474;
+    color: #ffffff;
+}
