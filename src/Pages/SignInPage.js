@@ -2,8 +2,14 @@ import {Navigate} from 'react-router-dom';
 import useInput from "../hooks/useInput";
 
 const SignInPage = ({user}) => {
-    const userName = useInput('', {minLength: 3, maxLength: 20});
-    const password = useInput('', {minLength: 3, maxLength: 20});
+    const userNameValidator = /^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$/;
+    const passwordValidator = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+
+    const userName = useInput('', {minLength: 8, maxLength: 30, regex: userNameValidator});
+    const password = useInput('', {minLength: 8, maxLength: 30, regex: passwordValidator});
+
+    const isUserNameInValid = userName.minLength || userName.maxLength || userName.regex;
+    const isPasswordNameInValid = password.minLength || password.maxLength || password.regex;
 
     return (
         (user && user.loggedIn) ? (
@@ -14,17 +20,19 @@ const SignInPage = ({user}) => {
                     localStorage.setItem('user', JSON.stringify({name: userName.value, loggedIn: true}))
                 }}>
                     <div className='input-container'>
-                        {(userName.minLength || userName.maxLength || password.minLength || password.maxLength)  && <div style={{color: 'rosybrown'}}>Each field should contain from 3 to 20 symbols</div>}
+                        {(isUserNameInValid || isPasswordNameInValid)  && <div style={{color: 'rosybrown'}}>Please enter correct {isUserNameInValid ? 'username' : 'password'}. Each field should contain from 3 to 20 symbols. Password should contain at least one capital letter, one number and length should be at least 8 symbols.</div>}
                         <label>Username </label>
                         <input
-                            {...userName}
+                            value={userName.value}
+                            onChange={userName.onChange}
                             type='text' required
                         />
                     </div>
                     <div className='input-container'>
                         <label>Password </label>
                         <input
-                            {...password}
+                            value={password.value}
+                            onChange={password.onChange}
                             type='password'
                             required
                         />
